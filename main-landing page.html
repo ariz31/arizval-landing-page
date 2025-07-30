@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arizval | Engineering & Data Analytics Resources</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --background: #030712; /* Gray 950 */
+            --text-primary: #ffffff; /* Gray 0 */
+            --text-secondary: #ffffff; /* Gray 0 */
+            --accent: #3b82f6; /* Blue 500 */
+            --border: #1f2937; /* Gray 800 */
+            --card-bg: #111827; /* Gray 900 */
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+        .hero-gradient {
+            background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59, 130, 246, 0.2), var(--background));
+        }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.1);
+        }
+        .section-title {
+            font-size: 2.25rem; /* 36px */
+            font-weight: 800;
+            color: var(--text-primary);
+            letter-spacing: -0.025em;
+        }
+        .section-subtitle {
+            font-size: 1.125rem; /* 18px */
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 1rem auto 0;
+        }
+        .cta-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.2s ease-in-out;
+        }
+        .primary-cta {
+            background-color: var(--accent);
+            color: white;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
+        }
+        .primary-cta:hover {
+            background-color: #60a5fa; /* blue 400 */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.3);
+        }
+        .secondary-cta {
+            background-color: var(--border);
+            color: var(--text-primary);
+        }
+        .secondary-cta:hover {
+            background-color: #374151; /* gray 700 */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-50">
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-gradient py-24 md:py-36">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white leading-tight tracking-tighter fade-in">
+                    Your Hub for Engineering & Data Science
+                </h1>
+                <p class="mt-4 text-lg md:text-xl text-gray-400 max-w-3xl mx-auto fade-in" style="animation-delay: 100ms;">
+                    Comprehensive formulas, powerful calculators, and complete learning paths for Civil Engineers and Data Analysts. All in one place, completely free.
+                </p>
+                <div class="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4 fade-in" style="animation-delay: 200ms;">
+                    <a href="#engineering" class="cta-button primary-cta w-full sm:w-auto">Explore Engineering</a>
+                    <a href="#analytics" class="cta-button secondary-cta w-full sm:w-auto">Start Data Analytics</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Civil Engineering Section -->
+        <section id="engineering" class="py-20 md:py-28">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <h2 class="section-title">Civil Engineering Powerhouse</h2>
+                <p class="section-subtitle">From board exam prep to complex design calculations, we've got you covered. Your ultimate digital handbook for every CE topic.</p>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+                    <!-- Card 1: Formula Guide -->
+                    <div class="card p-6">
+                        <h3 class="text-xl font-bold text-blue-400">The Ultimate Formula Guide</h3>
+                        <p class="mt-2 text-gray-400">An exhaustive list of formulas covering everything from Algebra and Calculus to Steel Design and Geotechnical Engineering.</p>
+                        <a href="https://www.arizval.com/civil-engineering/the-ultimate-formula-guide/formula-list" class="mt-4 inline-block font-semibold text-blue-400 hover:text-blue-300 transition group">View All Formulas <span class="inline-block transition-transform group-hover:translate-x-1">&rarr;</span></a>
+                    </div>
+                    <!-- Card 2: Applications & Solvers -->
+                    <div class="card p-6">
+                        <h3 class="text-xl font-bold text-blue-400">Practical Applications & Solvers</h3>
+                        <p class="mt-2 text-gray-400">Interactive tools for beam analysis, land area calculation, vector visualization, and much more to apply theory to practice.</p>
+                        <a href="https://www.arizval.com/civil-engineering/mechanics/beam-analysis" class="mt-4 inline-block font-semibold text-blue-400 hover:text-blue-300 transition group">Try a Solver <span class="inline-block transition-transform group-hover:translate-x-1">&rarr;</span></a>
+                    </div>
+                    <!-- Card 3: Exam Prep -->
+                    <div class="card p-6">
+                        <h3 class="text-xl font-bold text-blue-400">Licensure Exam Prep</h3>
+                        <p class="mt-2 text-gray-400">Ace the CELE and CSE with our dedicated reviewers, flashcards, checklists, and quizzes designed for success.</p>
+                        <a href="https://www.arizval.com/civil-engineering/applications/cse-reviewer" class="mt-4 inline-block font-semibold text-blue-400 hover:text-blue-300 transition group">Start Reviewing <span class="inline-block transition-transform group-hover:translate-x-1">&rarr;</span></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Analytics Section -->
+        <section id="analytics" class="py-20 md:py-28 bg-black/20">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <h2 class="section-title">Master Data Analytics</h2>
+                <p class="section-subtitle">Follow our structured learning path to become a data-driven expert. Learn SQL, Python, machine learning, and data storytelling from the ground up.</p>
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-left">
+                    <!-- Card 1: Complete Course -->
+                    <div class="card p-6">
+                        <h3 class="text-xl font-bold text-green-400">Complete Analytics Course</h3>
+                        <p class="mt-2 text-gray-400">A 13-module journey from statistical foundations to practical model building with Scikit-learn and dashboard creation.</p>
+                        <a href="https://www.arizval.com/data-analytics/complete-course/m1:-the-world-of-data-analytics" class="mt-4 inline-block font-semibold text-green-400 hover:text-green-300 transition group">Begin Module 1 <span class="inline-block transition-transform group-hover:translate-x-1">&rarr;</span></a>
+                    </div>
+                    <!-- Card 2: Core Technologies -->
+                    <div class="card p-6">
+                        <h3 class="text-xl font-bold text-green-400">Guides for Core Technologies</h3>
+                        <p class="mt-2 text-gray-400">In-depth guides and roadmaps for essential tools like SQL, Python, Git/GitHub, and Google Firebase.</p>
+                        <a href="https://www.arizval.com/data-analytics/python-guide" class="mt-4 inline-block font-semibold text-green-400 hover:text-green-300 transition group">Read Python Guide <span class="inline-block transition-transform group-hover:translate-x-1">&rarr;</span></a>
+                    </div>
+                    <!-- Card 3: Developer Roadmap -->
+                    <div class="card p-6">
+                        <h3 class="text-xl font-bold text-green-400">Fullstack Developer Roadmap</h3>
+                        <p class="mt-2 text-gray-400">Understand the technologies and steps required to become a full-stack developer in today's demanding market.</p>
+                        <a href="https://www.arizval.com/data-analytics/fullstack-developer-roadmap" class="mt-4 inline-block font-semibold text-green-400 hover:text-green-300 transition group">View Roadmap <span class="inline-block transition-transform group-hover:translate-x-1">&rarr;</span></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Utility Tools Section -->
+        <section id="tools" class="py-20 md:py-28">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <h2 class="section-title">Essential Daily Tools</h2>
+                <p class="section-subtitle">A suite of simple, powerful, and free tools to boost your productivity and streamline your workflow.</p>
+                <div class="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
+                    <a href="https://www.arizval.com/tools/ocr-tool" class="card p-4 sm:p-6 text-center flex flex-col items-center justify-center aspect-square">
+                        <h3 class="font-bold text-base sm:text-lg text-white">OCR Tool</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 mt-1">Extract Text</p>
+                    </a>
+                    <a href="https://www.arizval.com/tools/pdf-tool" class="card p-4 sm:p-6 text-center flex flex-col items-center justify-center aspect-square">
+                        <h3 class="font-bold text-base sm:text-lg text-white">PDF Tool</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 mt-1">Manage PDFs</p>
+                    </a>
+                    <a href="https://www.arizval.com/tools/qr-code-generator" class="card p-4 sm:p-6 text-center flex flex-col items-center justify-center aspect-square">
+                        <h3 class="font-bold text-base sm:text-lg text-white">QR Generator</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 mt-1">Create Codes</p>
+                    </a>
+                    <a href="https://www.arizval.com/tools/flowlist-Notes" class="card p-4 sm:p-6 text-center flex flex-col items-center justify-center aspect-square">
+                        <h3 class="font-bold text-base sm:text-lg text-white">Flowlist Notes</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 mt-1">Take Notes</p>
+                    </a>
+                    <a href="https://www.arizval.com/tools/queue-analyst" class="card p-4 sm:p-6 text-center flex flex-col items-center justify-center aspect-square">
+                        <h3 class="font-bold text-base sm:text-lg text-white">Queue Analyst</h3>
+                        <p class="text-xs sm:text-sm text-gray-400 mt-1">Analyze Queues</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-800">
+        <div class="container mx-auto px-4 sm:px-6 py-8">
+            <div class="text-center">
+                <p class="text-gray-500">&copy; 2025 Arizval.com. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
