@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arizval Mendoza | AI & Full-Stack Development</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* * =============================================
+         * Custom Properties for Theming
+         * =============================================
+         * Centralized color and style definitions for 
+         * easy theme management and consistency.
+         */
+        :root {
+            --background: #0A0A0A; /* Near-black for a deep, modern look */
+            --text-primary: #F5F5F5; /* Slightly off-white for readability */
+            --text-secondary: #A3A3A3; /* Neutral gray for subtitles */
+            --accent: #2563EB; /* A vibrant blue for primary actions */
+            --accent-hover: #1D4ED8; /* A darker shade for hover states */
+            --border: #262626; /* Subtle border color */
+            --card-bg: #171717; /* Dark gray for card backgrounds */
+            --section-bg: #141414; /* Slightly lighter than main bg for depth */
+        }
+
+        /* * =============================================
+         * Base & Typography Styles
+         * =============================================
+         */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* * =============================================
+         * Animated Gradient Background
+         * =============================================
+         * A subtle, animated gradient for the hero 
+         * section to add a dynamic visual element.
+         */
+        .hero-gradient {
+            background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(37, 99, 235, 0.3), var(--background));
+            animation: pulse-gradient 10s infinite ease-in-out;
+        }
+
+        @keyframes pulse-gradient {
+            0%, 100% { background-size: 100% 100%; }
+            50% { background-size: 110% 110%; }
+        }
+
+        /* * =============================================
+         * Card Styles & Effects
+         * =============================================
+         * Enhanced card styles with a subtle glow effect
+         * on hover for better visual feedback.
+         */
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 0 30px rgba(37, 99, 235, 0.15);
+        }
+
+        /* * =============================================
+         * Section Title Styles
+         * =============================================
+         */
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem); /* Responsive font size */
+            font-weight: 900;
+            color: var(--text-primary);
+            letter-spacing: -0.025em;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 1rem auto 0;
+        }
+        
+        /* * =============================================
+         * Call-to-Action Button Styles
+         * =============================================
+         */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.875rem 1.75rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.2s ease-in-out;
+            white-space: nowrap;
+        }
+
+        .primary-cta {
+            background-color: var(--accent);
+            color: white;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+        }
+
+        .primary-cta:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .secondary-cta {
+            background-color: var(--border);
+            color: var(--text-primary);
+        }
+
+        .secondary-cta:hover {
+            background-color: #3f3f46; /* Gray 700 */
+        }
+        
+        /* * =============================================
+         * Fade-in Animation on Scroll
+         * =============================================
+         * Uses Intersection Observer for performance.
+         */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* * =============================================
+         * Modal Styles
+         * =============================================
+         */
+        .modal-content {
+            background-color: #1f2937;
+            color: var(--text-primary);
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        /* * =============================================
+         * Services Carousel (Scroller)
+         * =============================================
+         * A modern, interactive carousel with a scaling
+         * effect for the centered item.
+         */
+        .scroller {
+            -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+            mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+        }
+        
+        .scroller__inner {
+            display: flex;
+            gap: 1rem;
+            width: max-content;
+            animation: scroll 40s linear infinite;
+        }
+
+        @keyframes scroll {
+            to {
+                transform: translateX(calc(-50% - 0.5rem));
+            }
+        }
+        
+        .service-card {
+            background: var(--card-bg);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            width: 350px;
+            flex-shrink: 0;
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .scroller:hover .scroller__inner {
+            animation-play-state: paused;
+        }
+
+        /* * =============================================
+         * Project Tags & Navigation
+         * =============================================
+         */
+        .tag {
+            background-color: rgba(37, 99, 235, 0.1);
+            color: var(--accent);
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+    </style>
+</head>
+<body class="bg-background text-text-primary">
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-gradient py-24 md:py-36 min-h-screen flex items-center">
+            <div class="container mx-auto px-4 sm:px-6 text-center">
+                <p class="text-blue-400 font-semibold mb-3">Arizval Mendoza | AI & Full-Stack Development</p>
+                <h1 class="text-4xl md:text-7xl font-black text-white leading-tight tracking-tighter">
+                    Architecting Digital Solutions
+                </h1>
+                <p class="mt-4 text-lg md:text-xl text-gray-200 max-w-3xl mx-auto">
+                    I build intelligent, high-performance web applications and automation systems that bridge the gap between complex engineering and elegant software.
+                </p>
+                <div class="mt-8 flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <a href="#contact" class="cta-button primary-cta w-full sm:w-auto">Start a Project</a>
+                    <a href="#projects" class="cta-button secondary-cta w-full sm:w-auto">View My Work</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-20 md:py-28 relative fade-in-section">
+            <div class="container mx-auto px-4 sm:px-6 text-center mb-16">
+                <h2 class="section-title">Core Services</h2>
+                <p class="section-subtitle">A suite of services to enhance efficiency, unlock insights, and build powerful digital tools.</p>
+            </div>
+            <div class="scroller" data-speed="fast">
+                <div class="scroller__inner">
+                    <!-- Services will be injected by JS -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="about" class="py-20 md:py-28 bg-section-bg fade-in-section">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-16">
+                    <h2 class="section-title">An Engineer's Precision, A Developer's Mindset</h2>
+                    <p class="section-subtitle">I bring a unique perspective to every project, ensuring robust, well-architected, and highly effective solutions.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="card p-8">
+                        <h3 class="text-xl font-bold text-blue-400">Full-Stack Expertise</h3>
+                        <p class="mt-2 text-gray-300">From front-end UI to serverless back-end architecture, I manage the entire development lifecycle to deliver cohesive, end-to-end applications.</p>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="text-xl font-bold text-blue-400">AI-Driven Solutions</h3>
+                        <p class="mt-2 text-gray-300">I leverage the latest Generative AI models to build intelligent features, automate complex tasks, and unlock new levels of productivity.</p>
+                    </div>
+                    <div class="card p-8">
+                        <h3 class="text-xl font-bold text-blue-400">Data-Centric Approach</h3>
+                        <p class="mt-2 text-gray-300">My background in data analysis ensures every solution is built on a foundation of clear insights, turning raw data into strategic assets.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Projects Section -->
+        <section id="projects" class="py-20 md:py-28 fade-in-section">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-16">
+                    <h2 class="section-title">Featured Projects</h2>
+                    <p class="section-subtitle">Real-world solutions that demonstrate my capabilities.</p>
+                </div>
+                <div id="projects-grid" class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Projects will be injected here by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="py-20 md:py-28 bg-section-bg fade-in-section">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-16">
+                    <h2 class="section-title">What My Collaborators Say</h2>
+                </div>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="card p-8 flex flex-col items-center text-center">
+                        <img src="https://placehold.co/80x80/2563EB/ffffff?text=LGU" alt="LGU Partner Avatar" class="rounded-full mb-4 border-2 border-blue-400">
+                        <p class="text-gray-300 text-lg italic mb-6">"Arizval's ability to translate our complex operational needs into a streamlined, automated system was remarkable. The efficiency gains were immediate and substantial. A true professional and innovator."</p>
+                        <div>
+                            <p class="font-bold text-white">LGU Partner</p>
+                            <p class="text-gray-400">BATIS Project</p>
+                        </div>
+                    </div>
+                    <div class="card p-8 flex flex-col items-center text-center">
+                        <img src="https://placehold.co/80x80/2563EB/ffffff?text=SLU" alt="Academic Colleague Avatar" class="rounded-full mb-4 border-2 border-blue-400">
+                        <p class="text-gray-300 text-lg italic mb-6">"The AI-powered tools he developed for our curriculum have been a game-changer for our students and faculty. His unique blend of academic insight and technical skill is a rare find."</p>
+                        <div>
+                            <p class="font-bold text-white">Academic Colleague</p>
+                            <p class="text-gray-400">Saint Louis University</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 md:py-28 fade-in-section">
+            <div class="container mx-auto px-4 sm:px-6 text-center max-w-3xl">
+                <h2 class="section-title">Let's Build Something Great</h2>
+                <p class="section-subtitle">Have a project, an idea, or a problem to solve? I'm always open to new challenges and collaborations. Reach out and let's discuss how I can help you achieve your goals.</p>
+                <div class="mt-8">
+                    <a href="mailto:arizvalmendoza@gmail.com" class="cta-button primary-cta text-lg px-8 py-4">
+                        Get in Touch
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-border">
+        <div class="container mx-auto px-4 sm:px-6 py-8 text-center">
+            <p class="text-gray-400">&copy; 2025 Arizval Mendoza. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Generic Modal Structure -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-70 z-50 flex justify-center items-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="modal-content rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform scale-95 opacity-0">
+            <div class="sticky top-0 bg-[#1f2937]/80 backdrop-blur-md p-6 border-b border-gray-700 flex justify-between items-center z-10">
+                <h3 id="modal-title" class="text-2xl font-bold"></h3>
+                <button id="modal-close-button" class="text-gray-400 hover:text-white transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="modal-body" class="p-6 md:p-8"></div>
+            <div id="modal-footer" class="sticky bottom-0 bg-[#1f2937]/80 backdrop-blur-md p-6 border-t border-gray-700 text-right"></div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // --- Data Definitions ---
+        const services = [
+            {
+                title: "Full-Stack Web App Development",
+                icon: `<svg class="w-8 h-8 text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>`,
+                short_desc: "Bespoke web applications with a modern, serverless architecture.",
+                full_desc: `<p class="text-gray-300 mb-4">I build robust and scalable web applications using a modern, serverless architecture. This approach is cost-effective and highly efficient. The frontend is built with clean HTML, CSS (Tailwind), and Vanilla JavaScript for speed, while the backend is powered by Google Apps Script, using Google Sheets as a flexible database.</p>
+                            <h4 class="font-semibold text-white mt-6 mb-2">What you get:</h4>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1">
+                                <li>A fully custom application tailored to your business logic.</li>
+                                <li>A responsive design that works perfectly on all devices.</li>
+                                <li>A secure and scalable serverless backend.</li>
+                                <li>Full ownership of the code and data.</li>
+                            </ul>`,
+            },
+            {
+                title: "Generative AI Integration",
+                icon: `<svg class="w-8 h-8 text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>`,
+                short_desc: "Enhance applications with intelligent features powered by models like Google Gemini.",
+                full_desc: `<p class="text-gray-300 mb-4">Bring intelligent features to your business. I can integrate powerful Generative AI models (like Google Gemini and OpenAI's GPT) into your existing web applications or business processes. This can unlock new capabilities and dramatically improve efficiency.</p>
+                            <h4 class="font-semibold text-white mt-6 mb-2">Potential applications:</h4>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1">
+                                <li>AI-powered chatbots for customer support.</li>
+                                <li>Automated summarization of long documents or reports.</li>
+                                <li>Content generation for marketing or product descriptions.</li>
+                                <li>Intelligent data analysis and insight generation.</li>
+                            </ul>`,
+            },
+            {
+                title: "Data Analysis & Dashboards",
+                icon: `<svg class="w-8 h-8 text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg>`,
+                short_desc: "Unlock insights with in-depth analysis and custom interactive dashboards.",
+                full_desc: `<p class="text-gray-300 mb-4">Go beyond raw numbers and truly understand your business. I provide end-to-end data services, from cleaning and analyzing your data to presenting the findings in beautiful, interactive dashboards. Whether you need to track KPIs, understand customer behavior, or validate a hypothesis, I can help you make data-driven decisions with confidence.</p>
+                            <h4 class="font-semibold text-white mt-6 mb-2">My process includes:</h4>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1">
+                                <li><strong>Statistical Analysis:</strong> Using Python (Pandas) and R to perform deep-dive analysis, identify trends, and uncover correlations.</li>
+                                <li><strong>Data Cleaning & Preparation:</strong> Ensuring your data is accurate and ready for analysis.</li>
+                                <li><strong>Dashboard Development:</strong> Building intuitive dashboards in Tableau, Google Looker Studio, or custom web apps.</li>
+                                <li><strong>Actionable Insights:</strong> Translating complex findings into clear, concise recommendations for your business.</li>
+                            </ul>`,
+            },
+            {
+                title: "Business Process Automation",
+                icon: `<svg class="w-8 h-8 text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`,
+                short_desc: "Streamline operations by automating repetitive tasks like data entry and reporting.",
+                full_desc: `<p class="text-gray-300 mb-4">Tired of manual, time-consuming processes? I specialize in creating bespoke automation solutions using Google Workspace (Apps Script, Sheets, Docs) and other modern tools. By analyzing your current workflow, I can identify bottlenecks and build custom scripts to handle them automatically.</p>
+                            <h4 class="font-semibold text-white mt-6 mb-2">Ideal for:</h4>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1">
+                                <li>Automating data collection from forms into spreadsheets.</li>
+                                <li>Generating custom reports or invoices from a template.</li>
+                                <li>Streamlining approval workflows and email notifications.</li>
+                                <li>Syncing data between different applications.</li>
+                            </ul>`,
+            },
+            {
+                title: "Custom Engineering Tools",
+                icon: `<svg class="w-8 h-8 text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 14l9-5-9-5-9 5 9 5z"></path><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-5.998 12.078 12.078 0 01.665-6.479L12 14z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-5.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222 4 2.222V20M1 12l4 2 4-2m-4 7v-7.5l4-2.222 4 2.222V20"></path></svg>`,
+                short_desc: "Specialized web-based calculators and design tools for engineering.",
+                full_desc: `<p class="text-gray-300 mb-4">As a licensed Civil Engineer, I understand the need for precise and efficient calculation tools. I build custom web applications that embed complex engineering logic, allowing your team to perform calculations, visualize designs, and check standards compliance quickly and accurately.</p>
+                            <h4 class="font-semibold text-white mt-6 mb-2">Examples include:</h4>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1">
+                                <li>Structural component capacity calculators (e.g., AISC Steel).</li>
+                                <li>Interactive material property visualizers.</li>
+                                <li>Tools for hydraulic or geotechnical calculations.</li>
+                                <li>Project-specific design parameter dashboards.</li>
+                            </ul>`,
+            },
+            {
+                title: "EdTech Application Development",
+                icon: `<svg class="w-8 h-8 text-blue-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>`,
+                short_desc: "Engaging digital learning tools, from AI quizzes to collaborative study apps.",
+                full_desc: `<p class="text-gray-300 mb-4">With a background in academia and development, I build technology that enhances the learning experience. I can help you create custom educational applications that are both impactful for students and efficient for instructors to manage.</p>
+                            <h4 class="font-semibold text-white mt-6 mb-2">Services for educators:</h4>
+                            <ul class="list-disc list-inside text-gray-300 space-y-1">
+                                <li>AI-enhanced quiz and flashcard platforms.</li>
+                                <li>Collaborative online tools for group projects.</li>
+                                <li>Progress tracking and checklist applications for students.</li>
+                                <li>Automated tools for grading and feedback.</li>
+                            </ul>`,
+            }
+        ];
+
+        const projects = [
+            {
+                title: "BATIS Project: GovTech Automation",
+                description: "A comprehensive system for a local government that digitized and automated civic operations, resulting in a 10x increase in data processing speed.",
+                tags: ["Google Apps Script", "Generative AI", "Process Automation"],
+                live_link: "https://docs.google.com/presentation/d/1nD-paa-5036bRke8DpY61oncnWi3oz4KaBeen-yah7A/edit?usp=sharing",
+                image_url: "https://placehold.co/600x400/1e3a8a/ffffff?text=BATIS+Project",
+                case_study: `<p class="text-gray-300 mb-4">This project was designed to address critical inefficiencies in a local government unit's public service delivery. I led the project from concept to deployment, creating a suite of tools built on Google Workspace and integrated with Generative AI.</p>
+                            <h4 class="font-semibold text-white mt-6 mb-2">Key Achievements:</h4>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2">
+                                <li><b>10x Faster Data Collection:</b> Replaced manual paper forms with digital Google Forms, instantly populating a central database.</li>
+                                <li><b>Automated Certificate Generation:</b> An Apps Script tool generates official documents from templates, reducing creation time by over 65%.</li>
+                                <li><b>AI-Powered Data Validation:</b> Used AI to cross-reference and validate resident data, improving data accuracy significantly.</li>
+                                <li><b>Automated Reporting:</b> Built dashboards that provided real-time insights into community statistics, aiding in better resource allocation.</li>
+                            </ul>`
+            },
+            {
+                title: "AI-Enhanced Quiz Platform",
+                description: "An EdTech web app with 4,000+ questions, using AI for rapid content generation and an optimized serverless backend for a seamless user experience.",
+                tags: ["Vanilla JS", "Google Sheets DB", "AI Content Gen"],
+                live_link: "https://www.arizval.com/civil-engineering/applications/civil-engineering-quiz-app",
+                image_url: "https://placehold.co/600x400/1e3a8a/ffffff?text=Quiz+Platform",
+                case_study: `<p class="text-gray-300 mb-4">This platform was created to provide Civil Engineering students with a high-quality, extensive review tool. The primary challenge was populating it with thousands of questions efficiently and ensuring a fast user experience.</p>
+                            <h4 class="font-semibold text-white mt-6 mb-2">Technical Highlights:</h4>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2">
+                                <li><b>AI Content Pipeline:</b> Developed a workflow using Custom GPTs with Retrieval-Augmented Generation (RAG) to create, format, and validate quiz questions, cutting content creation time by 40%.</li>
+                                <li><b>Optimized Backend:</b> The Google Apps Script backend was engineered to fetch all necessary data (questions, filter options) in a single server call, minimizing load times.</li>
+                                <li><b>Dynamic UI:</b> The user interface is generated directly from the Google Sheet database, meaning new topics or questions are reflected on the site instantly without code changes.</li>
+                            </ul>`
+            },
+            {
+                title: "Collaborative Analysis Tool",
+                description: "A real-time, full-stack web app for time-and-motion studies, using Firebase for live data syncing and AI for generating smart summaries.",
+                tags: ["Firebase Firestore", "Chart.js", "Real-Time Sync"],
+                live_link: "https://www.arizval.com/tools/queue-analyst",
+                image_url: "https://placehold.co/600x400/1e3a8a/ffffff?text=Analysis+Tool",
+                case_study: `<p class="text-gray-300 mb-4">This tool enables multiple users to collaboratively record timing data for statistical analysis, such as studying queueing times. The core of the project is its real-time capability and intelligent data interpretation.</p>
+                            <h4 class="font-semibold text-white mt-6 mb-2">Key Features:</h4>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2">
+                                <li><b>Live Data Sync:</b> Built on Firebase Firestore, the app uses an <code>onSnapshot</code> listener to ensure that data recorded by one user appears on all other connected clients instantly.</li>
+                                <li><b>Dynamic Dashboard:</b> The dashboard uses Chart.js to render live charts and calculates key statistics (mean, median, std dev) as data is collected.</li>
+                                <li><b>AI Smart Summaries:</b> A secure, server-side integration with the Google Gemini API allows users to generate an AI-powered summary that transforms raw statistics into actionable insights and recommendations.</li>
+                            </ul>`
+            },
+            {
+                title: "All-in-One PDF & Image Tool",
+                description: "A powerful, purely client-side web application for comprehensive PDF and image manipulation, ensuring user privacy and zero server costs.",
+                tags: ["Client-Side JS", "PDF.js & JSZip", "Privacy-Focused"],
+                live_link: "https://www.arizval.com/tools/pdf-tool",
+                image_url: "https://placehold.co/600x400/1e3a8a/ffffff?text=PDF+Tool",
+                case_study: `<p class="text-gray-300 mb-4">This project was an exercise in building a powerful utility tool that respects user privacy completely. All file processing happens within the user's browser, meaning their documents are never uploaded to a server.</p>
+                            <h4 class="font-semibold text-white mt-6 mb-2">Core Functionality:</h4>
+                            <ul class="list-disc list-inside text-gray-300 space-y-2">
+                                <li><b>Client-Side Processing:</b> Leverages modern browser APIs and JavaScript libraries like PDF-LIB.js and PDF.js to perform complex operations.</li>
+                                <li><b>Versatile Tools:</b> Users can merge PDFs, embed images, rotate pages, and extract pages as either a new PDF or a ZIP archive of JPG images.</li>
+                                <li><b>Serverless Architecture:</b> Hosted on a serverless platform, the application has no backend processing costs, making it infinitely scalable from a cost perspective.</li>
+                            </ul>`
+            }
+        ];
+
+        // --- Dynamic Content Injection ---
+        const projectsGrid = document.getElementById('projects-grid');
+        projects.forEach((project, index) => {
+            const projectCard = document.createElement('div');
+            projectCard.className = 'card p-8 flex flex-col';
+            projectCard.innerHTML = `
+                <img src="${project.image_url}" alt="${project.title} screenshot" class="w-full h-48 object-cover rounded-lg mb-6 border border-gray-700">
+                <h3 class="text-xl font-bold text-white mb-2">${project.title}</h3>
+                <p class="mt-2 text-gray-300 flex-grow">${project.description}</p>
+                <div class="mt-4 flex flex-wrap gap-2">
+                    ${project.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                </div>
+                <button data-index="${index}" class="view-case-study-btn mt-6 font-semibold text-blue-400 hover:text-blue-300 transition group self-start">
+                    View Case Study <span class="inline-block transition-transform group-hover:translate-x-1">&rarr;</span>
+                </button>
+            `;
+            projectsGrid.appendChild(projectCard);
+        });
+        
+        const scrollerInner = document.querySelector(".scroller__inner");
+        const serviceContent = Array.from(services);
+        
+        serviceContent.forEach((service, index) => {
+            const card = document.createElement('div');
+            card.className = 'service-card group';
+            card.setAttribute('data-index', index);
+            card.innerHTML = `
+                <div class="flex-grow">
+                    ${service.icon}
+                    <h3 class="text-xl font-bold text-white mb-2">${service.title}</h3>
+                    <p class="text-gray-300">${service.short_desc}</p>
+                </div>
+                <div class="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                </div>
+            `;
+            scrollerInner.appendChild(card);
+        });
+
+        // Duplicate services for infinite scroll effect
+        const scrollerContent = Array.from(scrollerInner.children);
+        scrollerContent.forEach(item => {
+            const duplicatedItem = item.cloneNode(true);
+            duplicatedItem.setAttribute("aria-hidden", true);
+            scrollerInner.appendChild(duplicatedItem);
+        });
+        
+        // --- Modal Logic ---
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        const modalFooter = document.getElementById('modal-footer');
+        const modalCloseButton = document.getElementById('modal-close-button');
+
+        function openModal(content) {
+            modalTitle.textContent = content.title;
+            modalBody.innerHTML = content.body;
+            modalFooter.innerHTML = content.footer;
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('.modal-content').classList.remove('scale-95', 'opacity-0');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.querySelector('.modal-content').classList.add('scale-95', 'opacity-0');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('pointer-events-none');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        document.querySelectorAll('.view-case-study-btn').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const projectIndex = e.currentTarget.getAttribute('data-index');
+                const project = projects[projectIndex];
+                openModal({
+                    title: project.title,
+                    body: project.case_study,
+                    footer: `<a href="${project.live_link}" target="_blank" rel="noopener noreferrer" class="cta-button primary-cta">View Live Project</a>`
+                });
+            });
+        });
+
+        scrollerInner.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                const serviceIndex = e.currentTarget.getAttribute('data-index');
+                const service = services[serviceIndex];
+                openModal({
+                    title: service.title,
+                    body: service.full_desc,
+                    footer: `<a href="#contact" onclick="closeModal()" class="cta-button primary-cta">Get a Quote</a>`
+                });
+            });
+        });
+
+        modalCloseButton.addEventListener('click', closeModal);
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+        
+        window.closeModal = closeModal;
+
+        // --- Intersection Observer for Animations ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        document.querySelectorAll('.fade-in-section').forEach(section => {
+            observer.observe(section);
+        });
+    });
+    </script>
+</body>
+</html>
