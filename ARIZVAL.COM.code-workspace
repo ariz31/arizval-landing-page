@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../ARIZVAL.COM"
+		},
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "ARIZVAL-LANDING-PAGE"
+	}
+}
