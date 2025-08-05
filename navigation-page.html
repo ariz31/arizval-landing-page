@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arizval.com | Interactive Site Map</title>
+    
+    <!-- Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --background: #000000;
+            --text-primary: #ffffff;
+            --text-secondary: #a0aec0;
+            --accent: #3b82f6;
+            --border: #1f2937;
+            --card-bg: #111827;
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111827; }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #60a5fa; }
+
+        /* Card styles */
+        .category-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .category-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 0 35px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Modal styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95);
+            transition: transform 0.4s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        /* Initial animation */
+        .animate-on-load {
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-gray-50">
+
+    <div id="sitemap-container" class="max-w-6xl mx-auto p-4 md:p-8">
+        
+        <!-- Header Section -->
+        <header class="text-center mb-8 md:mb-12 animate-on-load" style="animation-delay: 100ms;">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2">Site Map</h1>
+            <p class="text-lg text-gray-300">An interactive guide to arizval.com</p>
+        </header>
+
+        <!-- Main Category Grid -->
+        <main id="main-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Cards will be injected here by JavaScript -->
+        </main>
+    </div>
+
+    <!-- Modal for displaying sub-categories and links -->
+    <div id="modal" class="modal-overlay">
+        <div class="modal-content">
+            <div id="modal-header" class="p-4 border-b border-gray-800 flex justify-between items-center flex-shrink-0">
+                <button id="modal-back-btn" class="p-2 rounded-md hover:bg-gray-800 transition-colors">&larr; Back</button>
+                <h2 id="modal-title" class="text-xl font-bold text-center flex-grow"></h2>
+                <button id="modal-close-btn" class="p-2 rounded-md hover:bg-gray-800 transition-colors">&times;</button>
+            </div>
+            <div id="modal-body" class="p-4 sm:p-6 overflow-y-auto">
+                <!-- Modal content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const sitemapData = {
+            home: {
+                title: 'Home',
+                emoji: '🏠',
+                items: [
+                    { title: 'Home', url: 'http://www.arizval.com/home' },
+                    { title: 'Site Navigation', url: 'http://www.arizval.com/home/site-navigation' },
+                    { title: 'Planned Features', url: 'http://www.arizval.com/home/planned-features' },
+                    { title: 'Progress and Updates', url: 'http://www.arizval.com/home/progress-and-updates' },
+                    { title: 'Report Bugs', url: 'http://www.arizval.com/home/report-bugs' },
+                    { title: 'Color Pop', url: 'http://www.arizval.com/home/color-pop' },
+                ]
+            },
+            tools: {
+                title: 'Tools',
+                emoji: '🛠️',
+                items: [
+                    { title: 'OCR Tool', url: 'http://www.arizval.com/tools/ocr-tool' },
+                    { title: 'PDF Tool', url: 'http://www.arizval.com/tools/pdf-tool' },
+                    { title: 'QR Code Generator', url: 'http://www.arizval.com/tools/qr-code-generator' },
+                    { title: 'Flowlist Notes', url: 'http://www.arizval.com/tools/flowlist-Notes' },
+                    { title: 'Queue Analyst', url: 'http://www.arizval.com/tools/queue-analyst' },
+                ]
+            },
+            'civil-engineering': {
+                title: 'Civil Engineering',
+                emoji: '🏗️',
+                items: {
+                    'mind-maps': {
+                        title: 'Mind Maps',
+                        items: {
+                            algebra: { title: 'Algebra', items: [{ title: 'Main Map', url: 'http://www.arizval.com/civil-engineering/mind-maps/algebra/main-map' }] },
+                            productivity: { title: 'Productivity', items: [
+                                { title: 'Learning Strategy', url: 'http://www.arizval.com/civil-engineering/mind-maps/productivity/learning-strategy' },
+                                { title: 'Systems Thinking for Task and Motivation', url: 'http://www.arizval.com/civil-engineering/mind-maps/productivity/systems-thinking-for-task-and-motivation' },
+                            ]}
+                        }
+                    },
+                    applications: {
+                        title: 'Applications',
+                        items: [
+                            { title: 'CELE Checklist', url: 'http://www.arizval.com/civil-engineering/applications/cele-checklist' },
+                            { title: 'Flashcards', url: 'http://www.arizval.com/civil-engineering/applications/flashcards' },
+                            { title: 'Civil Engineering Quiz', url: 'http://www.arizval.com/civil-engineering/applications/civil-engineering-quiz' },
+                            { title: 'CSE Reviewer', url: 'http://www.arizval.com/civil-engineering/applications/cse-reviewer' },
+                            { title: 'Solar Calculator', url: 'http://www.arizval.com/civil-engineering/applications/solar-calculator' },
+                        ]
+                    },
+                    'formula-guide': {
+                        title: 'The Ultimate Formula Guide',
+                        items: [
+                             { title: 'Formula List', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/formula-list' },
+                             { title: 'Algebra', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/algebra' },
+                             { title: 'Trigonometry', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/trigonometry' },
+                             { title: 'Analytic Geometry', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/analytic-geometry' },
+                             { title: 'Differential Calculus', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/differential-calculus' },
+                             { title: 'Integral Calculus', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/integral-calculus' },
+                             { title: 'Physics', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/physics' },
+                             { title: 'Mechanics', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/mechanics' },
+                             { title: 'Statics', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/statics' },
+                             { title: 'Dynamics', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/dynamics' },
+                             { title: 'Probability', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/probability' },
+                             { title: 'Statistics', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/statistics' },
+                             { title: 'Numerical Methods', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/numerical-methods' },
+                             { title: 'Elementary Surveying', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/elementary-surveying' },
+                             { title: 'Higher Surveying', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/higher-surveying' },
+                             { title: 'Highway Engineering', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/highway-engineering' },
+                             { title: 'Transportation Engineering', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/transportation-engineering' },
+                             { title: 'Structural Theory', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/structural-theory' },
+                             { title: 'Steel Design', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/steel-design' },
+                             { title: 'Reinforced Concrete Design', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/reinforced-concrete-design' },
+                             { title: 'Hydraulics and Fluid Mechanics', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/hydraulics-and-fluid-mechanics' },
+                             { title: 'Hydrology', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/hydrology' },
+                             { title: 'Geotechnical Engineering', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/geotechnical-engineering' },
+                             { title: 'Engineering Economy', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/engineering-economy' },
+                             { title: 'CEPM', url: 'http://www.arizval.com/civil-engineering/the-ultimate-formula-guide/cepm' },
+                        ]
+                    },
+                    'general-math': {
+                        title: 'General Math',
+                        items: [
+                            { title: 'Basic Graphing', url: 'http://www.arizval.com/civil-engineering/general-math/basic-graphing' },
+                            { title: '2D Geometry', url: 'http://www.arizval.com/civil-engineering/general-math/2d-geometry' },
+                            { title: '3D Geometry', url: 'http://www.arizval.com/civil-engineering/general-math/3d-geometry' },
+                            { title: 'Cartesian Plane 2D', url: 'http://www.arizval.com/civil-engineering/general-math/cartesian-plane-2d' },
+                            { title: 'Conic Sections', url: 'http://www.arizval.com/civil-engineering/general-math/conic-sections' },
+                            { title: 'Applications of Integrals', url: 'http://www.arizval.com/civil-engineering/general-math/applications-of-integrals' },
+                        ]
+                    },
+                    surveying: {
+                        title: 'Surveying',
+                        items: [
+                            { title: 'Surveying PPT', url: 'http://www.arizval.com/civil-engineering/surveying/surveying-ppt' },
+                            { title: 'Pacing and Pace Factor', url: 'http://www.arizval.com/civil-engineering/surveying/pacing-and-pace-factor' },
+                            { title: 'Taping and Tape Corrections', url: 'http://www.arizval.com/civil-engineering/surveying/taping-and-tape-corrections' },
+                            { title: 'Differential Leveling', url: 'http://www.arizval.com/civil-engineering/surveying/differential-leveling' },
+                            { title: 'Inclined Stadia', url: 'http://www.arizval.com/civil-engineering/surveying/inclined-stadia' },
+                            { title: 'Profile Leveling', url: 'http://www.arizval.com/civil-engineering/surveying/profile-leveling' },
+                            { title: 'Land Area Calculator', url: 'http://www.arizval.com/civil-engineering/surveying/land-area-calculator' },
+                        ]
+                    },
+                    physics: {
+                        title: 'Physics',
+                        items: [
+                            { title: 'Unit Converter', url: 'http://www.arizval.com/civil-engineering/physics/unit-converter' },
+                            { title: 'Kinematics', url: 'http://www.arizval.com/civil-engineering/physics/kinematics' },
+                            { title: "Dynamics - Newton's Laws", url: 'http://www.arizval.com/civil-engineering/physics/dynamics-newtons-laws' },
+                            { title: 'Work, Energy, and Power', url: 'http://www.arizval.com/civil-engineering/physics/work-energy-and-power' },
+                            { title: 'Waves and Optics', url: 'http://www.arizval.com/civil-engineering/physics/waves-and-optics' },
+                        ]
+                    },
+                    mechanics: {
+                        title: 'Mechanics',
+                        items: [
+                            { title: '2D Vector Solver', url: 'http://www.arizval.com/civil-engineering/mechanics/2d-vector-solver' },
+                            { title: 'Generalized Reaction Solver', url: 'http://www.arizval.com/civil-engineering/mechanics/generalized-reaction-solver' },
+                            { title: 'Vector Visualizer', url: 'http://www.arizval.com/civil-engineering/mechanics/vector-visualizer' },
+                            { title: 'Moment of a Force', url: 'http://www.arizval.com/civil-engineering/mechanics/moment-of-a-force' },
+                            { title: 'Beam Analysis', url: 'http://www.arizval.com/civil-engineering/mechanics/beam-analysis' },
+                            { title: 'Equilibrium', url: 'http://www.arizval.com/civil-engineering/mechanics/equilibrium' },
+                            { title: 'Analysis of Trusses', url: 'http://www.arizval.com/civil-engineering/mechanics/analysis-of-trusses' },
+                        ]
+                    },
+                    estimates: {
+                        title: 'Estimates',
+                        items: [{ title: 'Excavation', url: 'http://www.arizval.com/civil-engineering/estimates/excavation' }]
+                    },
+                    'construction-material': {
+                        title: 'Construction Material',
+                        items: [
+                            { title: 'Concrete Mixing and Curing', url: 'http://www.arizval.com/civil-engineering/construction-material/concrete-mixing-and-curing' },
+                            { title: 'Concrete Mix', url: 'http://www.arizval.com/civil-engineering/construction-material/concrete-mix' },
+                            { title: 'ASTM C29', url: 'http://www.arizval.com/civil-engineering/construction-material/astm-c29' },
+                            { title: 'ASTM C39', url: 'http://www.arizval.com/civil-engineering/construction-material/astm-c39' },
+                            { title: 'ASTM C78', url: 'http://www.arizval.com/civil-engineering/construction-material/astm-c78' },
+                            { title: 'ASTM C192', url: 'http://www.arizval.com/civil-engineering/construction-material/astm-c192' },
+                            { title: 'Tensile Testing', url: 'http://www.arizval.com/civil-engineering/construction-material/tensile-testing' },
+                        ]
+                    },
+                    'steel-design': {
+                        title: 'Steel Design',
+                        items: [{ title: 'AISC Database', url: 'http://www.arizval.com/civil-engineering/steel-design/aisc-database' }]
+                    },
+                    'fluid-mechanics': {
+                        title: 'Fluid Mechanics & Hydraulics',
+                        items: [
+                            { title: "Bernoulli's Energy Equation", url: 'http://www.arizval.com/civil-engineering/fluid-mechanics-hydraulics/bernoullis-energy-equation' },
+                            { title: 'Fluid Properties and Hydrostatics', url: 'http://www.arizval.com/civil-engineering/fluid-mechanics-hydraulics/fluid-properties-and-hydrostatics' },
+                        ]
+                    }
+                }
+            },
+            'data-analytics': {
+                title: 'Data Analytics',
+                emoji: '📊',
+                items: {
+                    'complete-course': {
+                        title: 'Complete Course',
+                        items: [
+                            { title: 'M1: The World of Data Analytics', url: 'http://www.arizval.com/data-analytics/complete-course/m1:-the-world-of-data-analytics' },
+                            { title: 'M2: The Data Analytics Lifecycle & Ethical Framework', url: 'http://www.arizval.com/data-analytics/complete-course/m2:-the-data-analytics-lifecycle-and-ethical-framework' },
+                            { title: 'M3: Mathematical and Statistical Foundations', url: 'http://www.arizval.com/data-analytics/complete-course/m3:-mathematical-and-statistical-foundations' },
+                            { title: 'M4: Data Collection Techniques', url: 'http://www.arizval.com/data-analytics/complete-course/m4:-data-collection-techniques' },
+                            { title: 'M5: Data Wrangling: Cleaning and Preprocessing', url: 'http://www.arizval.com/data-analytics/complete-course/m5:-data-wrangling:-cleaning-and-preprocessing' },
+                            { title: 'M6: Foundational Analysis in Microsoft Excel', url: 'http://www.arizval.com/data-analytics/complete-course/m6:-foundational-analysis-in-microsoft-excel' },
+                            { title: 'M7: Mastering SQL for Data Analysis', url: 'http://www.arizval.com/data-analytics/complete-course/m7:-mastering-sql-for-data-analysis' },
+                            { title: 'M8: Deep Dive: Data Analysis with Python', url: 'http://www.arizval.com/data-analytics/complete-course/m8:-deep-dive:-data-analysis-with-python' },
+                            { title: 'M9: Exploratory Data Analysis (EDA) & Feature Engineering', url: 'http://www.arizval.com/data-analytics/complete-course/m9:-exploratory-data-analysis-(eda)-and-feature-engineering' },
+                            { title: 'M10: A Primer on Machine Learning for Analysts', url: 'http://www.arizval.com/data-analytics/complete-course/m10:-a-primer-on-machine-learning-for-analysts' },
+                            { title: 'M11: Practical Model Building with Scikit-learn', url: 'http://www.arizval.com/data-analytics/complete-course/m11:-practical-model-building-with-scikit-learn' },
+                            { title: 'M12: Communicating Insights: BI Tools & Dashboard', url: 'http://www.arizval.com/data-analytics/complete-course/m12:-communicating-insights:-bi-tools-and-dashboard' },
+                            { title: 'M13: The Art of Data Storytelling', url: 'http://www.arizval.com/data-analytics/complete-course/m13:-the-art-of-data-storytelling' },
+                        ]
+                    },
+                    'guides': {
+                        title: 'Guides & Roadmaps',
+                        items: [
+                            { title: 'How to Learn Faster', url: 'http://www.arizval.com/data-analytics/how-to-learn-faster' },
+                            { title: 'SQL Guide', url: 'http://www.arizval.com/data-analytics/sql-guide' },
+                            { title: 'Google Firebase', url: 'http://www.arizval.com/data-analytics/google-firebase' },
+                            { title: 'Python Guide', url: 'http://www.arizval.com/data-analytics/python-guide' },
+                            { title: 'Git & GitHub', url: 'http://www.arizval.com/data-analytics/git-github' },
+                            { title: 'Fullstack Developer Roadmap', url: 'http://www.arizval.com/data-analytics/fullstack-developer-roadmap' },
+                        ]
+                    }
+                }
+            }
+        };
+
+        const mainGrid = document.getElementById('main-grid');
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalBody = document.getElementById('modal-body');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalBackBtn = document.getElementById('modal-back-btn');
+
+        let navigationHistory = [];
+
+        function renderMainGrid() {
+            mainGrid.innerHTML = '';
+            let delay = 300;
+            for (const key in sitemapData) {
+                const item = sitemapData[key];
+                const card = document.createElement('div');
+                card.className = 'category-card animate-on-load';
+                card.style.animationDelay = `${delay}ms`;
+                card.dataset.key = key;
+                card.innerHTML = `
+                    <div class="text-5xl mb-4">${item.emoji}</div>
+                    <h2 class="text-xl font-bold text-white">${item.title}</h2>
+                `;
+                card.addEventListener('click', () => openModal(key));
+                mainGrid.appendChild(card);
+                delay += 100;
+            }
+        }
+
+        function openModal(key) {
+            navigationHistory = [sitemapData[key]];
+            renderModalContent(sitemapData[key]);
+            modal.classList.add('active');
+        }
+
+        function renderModalContent(data) {
+            modalTitle.textContent = data.title;
+            modalBody.innerHTML = '';
+            
+            modalBackBtn.style.display = navigationHistory.length > 1 ? 'block' : 'none';
+
+            if (Array.isArray(data.items)) { // It's a list of links
+                const list = document.createElement('ul');
+                list.className = 'space-y-2';
+                data.items.forEach(item => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<a href="${item.url}" target="_blank" rel="noopener noreferrer" class="block p-4 rounded-lg hover:bg-gray-800 transition-colors text-gray-300 hover:text-white">${item.title}</a>`;
+                    list.appendChild(li);
+                });
+                modalBody.appendChild(list);
+            } else { // It's a collection of sub-categories
+                const grid = document.createElement('div');
+                grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4';
+                for (const key in data.items) {
+                    const item = data.items[key];
+                    const card = document.createElement('div');
+                    card.className = 'category-card';
+                    card.innerHTML = `<h3 class="font-semibold text-white">${item.title}</h3>`;
+                    card.addEventListener('click', () => navigateDeeper(item));
+                    grid.appendChild(card);
+                }
+                modalBody.appendChild(grid);
+            }
+        }
+        
+        function navigateDeeper(data) {
+            navigationHistory.push(data);
+            renderModalContent(data);
+        }
+
+        function navigateBack() {
+            if (navigationHistory.length > 1) {
+                navigationHistory.pop();
+                renderModalContent(navigationHistory[navigationHistory.length - 1]);
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            navigationHistory = [];
+        }
+
+        modalCloseBtn.addEventListener('click', closeModal);
+        modalBackBtn.addEventListener('click', navigateBack);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+
+        renderMainGrid();
+    });
+    </script>
+
+</body>
+</html>
